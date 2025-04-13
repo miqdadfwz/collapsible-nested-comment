@@ -14,14 +14,14 @@ import {
   Stack,
   Text,
   Button,
-  Collapse,
   ActionIcon,
   Menu,
   Tooltip,
 } from "@mantine/core";
 import { useHover } from "@mantine/hooks";
 
-import { HtmlToMantine } from "~/shared";
+import { HtmlToMantine, Collapsible } from "~/shared";
+
 import {
   useAddComment,
   useGetComments,
@@ -224,17 +224,17 @@ function Comment(props: CommentProps) {
               onRemoveComment={handleDeleteComment}
             />
           </Stack>
-          <Collapse in={showReply}>
+          <Collapsible open={showReply}>
             <CommentsEditor
               onCancel={handleCancelReply}
               onSubmit={handleSubmit}
             />
-          </Collapse>
+          </Collapsible>
         </Stack>
       </Box>
 
       {comment.comments && (
-        <Collapse in={expanded}>
+        <Collapsible open={expanded}>
           {comment.comments.map((subComment) => (
             <Comment
               level={level + 1}
@@ -242,7 +242,7 @@ function Comment(props: CommentProps) {
               comment={subComment}
             />
           ))}
-        </Collapse>
+        </Collapsible>
       )}
     </>
   );

@@ -41,6 +41,15 @@ vi.mock("~/shared", () => ({
   HtmlToMantine: vi.fn(({ html }) => (
     <div data-testid="html-content">{html}</div>
   )),
+
+  Collapsible: vi.fn(({ open, children }) => (
+    <div
+      data-testid="collapsible-container"
+      style={{ height: open ? "auto" : "0px", opacity: open ? 1 : 0 }}
+    >
+      {children}
+    </div>
+  )),
 }));
 
 const renderWithMantine = (ui: React.ReactNode) => {
