@@ -9,6 +9,7 @@ export default mergeConfig(
       environment: "jsdom",
       setupFiles: ["./setup-vitest.ts"],
       exclude: ["**/node_modules/**", "**/__mocks__/**"],
+      include: ["src/**/*.test.tsx", "src/**/*.spec.tsx"],
     },
   })
 );

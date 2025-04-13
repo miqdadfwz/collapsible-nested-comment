@@ -35,20 +35,6 @@ describe("CreateComment", () => {
     (useAddComment as unknown as ReturnType<typeof vi.fn>).mockReturnValue(
       mockAddComment
     );
-
-    Object.defineProperty(window, "matchMedia", {
-      writable: true,
-      value: vi.fn().mockImplementation((query) => ({
-        matches: false,
-        media: query,
-        onchange: null,
-        addListener: vi.fn(),
-        removeListener: vi.fn(),
-        addEventListener: vi.fn(),
-        removeEventListener: vi.fn(),
-        dispatchEvent: vi.fn(),
-      })),
-    });
   });
 
   it("renders the CreateCommentEditor component", () => {
@@ -63,7 +49,7 @@ describe("CreateComment", () => {
 
     expect(mockAddComment).toHaveBeenCalledWith(
       "Test comment content",
-      "John Doe",
+      "Jane Smith",
       ""
     );
     expect(mockAddComment).toHaveBeenCalledTimes(1);

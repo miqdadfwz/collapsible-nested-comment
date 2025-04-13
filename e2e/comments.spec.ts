@@ -27,5 +27,5 @@ test("comment creation and interaction flow", async ({ page }) => {
 
   // 4. Verify the comment appears in the list
   await expect(page.getByText(commentText)).toBeVisible();
-  await expect(page.getByText("John Doe").first()).toBeVisible();
+  await expect(page.getByText("Jane Smith").first()).toBeVisible();
 });
