@@ -42,7 +42,7 @@ export function CreateCommentEditor(props: CreateCommentEditorProps) {
         ...style,
       }}
     >
-      <RichTextEditor.Content ta="start" fz="sm" h="100px" />
+      <RichTextEditor.Content ta="start" fz="sm" mih="100px" />
 
       <Wrapper
         p={6}

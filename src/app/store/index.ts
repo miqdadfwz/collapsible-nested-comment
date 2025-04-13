@@ -33,9 +33,13 @@ interface GlobalStore {
   ) => PostedComment;
 
   removeComment: (id: string) => PostedComment | undefined;
-  updateComment: (id: string, content: string) => string;
 }
 
+/**
+ * State initialization for global store
+ * Uses immer middleware for simplified state mutations
+ * and persist middleware for automatic localStorage persistence
+ */
 const initialState: StateCreator<
   GlobalStore,
   [["zustand/persist", unknown], ["zustand/immer", never]],
@@ -88,11 +92,23 @@ const initialState: StateCreator<
     return removed.id;
   },
 
+  /**
+   * Add a comment to the store, either as a top-level comment or as a reply
+   * to an existing comment (when parentId is provided)
+   *
+   * @param content - HTML content of the comment
+   * @param author - Name of the comment author
+   * @param parentId - Optional ID of the parent comment for replies
+   * @returns The newly created comment object
+   */
   addComment: (content, author, parentId) => {
     const id = uuidv4();
     const post = get().addPost(content);
     let user = get().user.find((user) => user.name === author);
 
+    /**
+     * Recursively search for a comment by its ID within the nested comment structure
+     */
     const findParentComment = (
       comments: PostedComment[],
       parentId: string
@@ -121,6 +137,10 @@ const initialState: StateCreator<
 
       if (parentComment) {
         set((state) => {
+          /**
+           * Recursively traverse comment tree and update the target comment
+           * by adding the new reply to its comments array
+           */
           const setNestedComment = (comments: PostedComment[]) => {
             return comments.map((comment) => {
               if (comment.id === parentId) {
@@ -167,10 +187,21 @@ const initialState: StateCreator<
     return get().comments.find((comment) => comment.id === id) as PostedComment;
   },
 
+  /**
+   * Remove a comment from the store and clean up related posts
+   * Works with both top-level and nested comments
+   *
+   * @param id - ID of the comment to remove
+   * @returns The removed comment or undefined if not found
+   */
   removeComment: (id) => {
     let found: PostedComment | undefined;
 
     set((state) => {
+      /**
+       * Recursively search and remove a comment from the nested comment structure
+       * Also removes the associated post from the posts array
+       */
       const findAndRemoveComment = (comments: PostedComment[]) => {
         if (!comments) return;
 
@@ -207,29 +238,6 @@ const initialState: StateCreator<
     });
 
     return found;
-  },
-
-  updateComment: (id, content) => {
-    const comment = get().comments.find((comment) => comment.id === id);
-    if (!comment) return "";
-
-    const post = get().posts.find((post) => post.id === comment.postId);
-    if (!post) return "";
-
-    set((state) => {
-      state.comments = state.comments.map((comment) => {
-        if (comment.id === id) {
-          return {
-            ...comment,
-            post: { ...post, content },
-            updatedAt: dayjs().toISOString(),
-          };
-        }
-        return comment;
-      });
-    });
-
-    return comment.id;
   },
 });
 

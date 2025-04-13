@@ -99,7 +99,11 @@ function CommentFooter(props: CommentFooterProps) {
         <Menu>
           <Menu.Target>
             <Tooltip label="More actions" withArrow>
-              <ActionIcon variant="transparent" size="sm" data-testid="more-actions">
+              <ActionIcon
+                variant="transparent"
+                size="sm"
+                data-testid="more-actions"
+              >
                 <Ellipsis size={18} color="grey" />
               </ActionIcon>
             </Tooltip>
@@ -177,9 +181,13 @@ function Comment(props: CommentProps) {
 
   const handleSubmit = useCallback(
     (content: string) => {
-      handleAddComment(content, "John Doe", comment.id);
-      setExpanded(true);
-      setShowReply(false);
+      try {
+        handleAddComment(content, "John Doe", comment.id);
+        setExpanded(true);
+        setShowReply(false);
+      } catch (error) {
+        console.error("Failed to add comment:", error);
+      }
     },
     [handleAddComment, comment.id]
   );
@@ -245,7 +253,7 @@ export function Comments() {
 
   return comments.map((comment) => {
     return (
-      <Box key={comment.id}>
+      <Box key={`comments-${comment.id}`}>
         <Comment level={0} comment={comment} />
       </Box>
     );
