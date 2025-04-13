@@ -177,7 +177,7 @@ function Comment(props: CommentProps) {
 
   const handleSubmit = useCallback(
     (content: string) => {
-      handleAddComment(content, "John", comment.id);
+      handleAddComment(content, "John Doe", comment.id);
       setExpanded(true);
       setShowReply(false);
     },

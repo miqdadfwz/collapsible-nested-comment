@@ -9,8 +9,6 @@ import type { User } from "~/entities/User";
 import type { Post } from "~/entities/Post";
 import type { Comment } from "~/entities/Comment";
 
-import { POSTED_COMMENTS, USERS, POSTS } from "./seed";
-
 export type PostedComment = Comment & {
   post: Post;
   user: User;
@@ -44,9 +42,9 @@ const initialState: StateCreator<
   [],
   GlobalStore
 > = (set, get) => ({
-  user: USERS,
-  posts: POSTS,
-  comments: POSTED_COMMENTS,
+  user: [],
+  posts: [],
+  comments: [],
 
   addUser: (name: string) => {
     set((state) => {

@@ -5,7 +5,7 @@ import { useAddComment } from "../model/create-comment.model";
 export function CreateComment() {
   const handleAddComment = useAddComment();
   const handleSubmit = (content: string) => {
-    handleAddComment(content, "John Doe", "");
+    handleAddComment(content, "Jane Smith", "");
   };
 
   return (
