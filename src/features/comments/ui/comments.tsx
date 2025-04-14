@@ -226,8 +226,8 @@ function Comment(props: CommentProps) {
           </Stack>
           <Collapsible open={showReply}>
             <CommentsEditor
-              onCancel={handleCancelReply}
               onSubmit={handleSubmit}
+              onCancel={handleCancelReply}
             />
           </Collapsible>
         </Stack>
