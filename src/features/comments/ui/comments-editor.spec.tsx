@@ -6,9 +6,6 @@ import { useEditor } from "@tiptap/react";
 
 vi.mock("@tiptap/react", () => ({
   useEditor: vi.fn(),
-  BubbleMenu: ({ children }: { children: React.ReactNode }) => (
-    <div data-testid="bubble-menu">{children}</div>
-  ),
 }));
 
 vi.mock("@mantine/tiptap", () => {
@@ -80,7 +77,6 @@ describe("CommentsEditor", () => {
     renderWithMantine(<CommentsEditor />);
 
     expect(screen.getByTestId("comments-editor")).toBeInTheDocument();
-    expect(screen.getByTestId("bubble-menu")).toBeInTheDocument();
     expect(screen.getByText("Submit")).toBeInTheDocument();
     expect(screen.getByText("Cancel")).toBeInTheDocument();
   });
